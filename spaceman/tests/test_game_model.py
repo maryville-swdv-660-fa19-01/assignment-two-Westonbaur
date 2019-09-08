@@ -155,7 +155,52 @@ class GameModelTests( TestCase ):
         self.assertEquals( game.letters_guessed, expectedLettersGuessed )
 
     ### is_game_over field
-    def test_is_game_over_field(self):
+
+    def test_is_game_over_is_false_if_guesses_left( self ):
+        expectedResult = False
+        game = Game(
+            word= 'TESTWORD',
+            guessed_word_state= ['','','S','','W','O','R',''],
+            letters_guessed = ['T','G', 'E', 'S', 'W', 'O'],
+            guesses_allowed= 10, 
+            guesses_taken= 6
+        )
+
+        guess = 'Z'
+        game.handleGuess(guess)
+        self.assertEquals(expectedResult, game.is_game_over)
+
+    def test_is_game_over_is_false_if_not_all_letters_guessed( self ):
+        expectedResult = False
+        game = Game(
+            word= 'TESTWORD',
+            guessed_word_state= ['','','S','','W','O','R',''],
+            letters_guessed = ['T','G', 'E', 'S', 'W', 'O', 'R', 'Q'],
+            guesses_allowed= 10, 
+            guesses_taken= 8,
+            is_game_over = False
+        )
+
+        guess = 'Z'
+        game.handleGuess(guess)
+        self.assertEquals(expectedResult, game.is_game_over)
+
+    def test_is_game_over_is_true_if_no_guesses_left( self ):
+        expectedResult = True
+        game = Game(
+            word= 'TESTWORD',
+            guessed_word_state= ['','','S','','W','O','R',''],
+            letters_guessed = ['T','G', 'E', 'S', 'W', 'O', 'R', 'L', 'Q'],
+            guesses_allowed= 10, 
+            guesses_taken= 9,
+            is_game_over = False
+        )
+
+        guess = 'Z'
+        game.handleGuess(guess)
+        self.assertEquals(expectedResult, game.is_game_over)
+
+    def test_is_game_over_is_true_if_all_letters_guessed( self ):
         expectedResult = True
         game = Game(
             word= 'TESTWORD',
@@ -169,16 +214,3 @@ class GameModelTests( TestCase ):
         guess = 'D'
         game.handleGuess(guess)
         self.assertEquals(expectedResult, game.is_game_over)
-
-
-    def test_is_game_over_is_false_if_guesses_left( self ):
-        pass
-
-    def test_is_game_over_is_false_if_not_all_letters_guessed( self ):
-        pass
-
-    def test_is_game_over_is_true_if_no_guesses_left( self ):
-        pass
-
-    def test_is_game_over_is_true_if_all_letters_guessed( self ):
-        pass
