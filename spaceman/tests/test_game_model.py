@@ -155,9 +155,21 @@ class GameModelTests( TestCase ):
         self.assertEquals( game.letters_guessed, expectedLettersGuessed )
 
     ### is_game_over field
-    # TODO: add tests
-    # HINT: considering adding a fixture or other widely scoped variables if you feel ]hat will
-    #  make this easier
+    def test_is_game_over_field(self):
+        expectedResult = True
+        game = Game(
+            word= 'TESTWORD',
+            guessed_word_state= ['','','S','','W','O','R',''],
+            letters_guessed = ['T','G', 'E', 'S', 'W', 'O', 'R'],
+            guesses_allowed= 10, 
+            guesses_taken= 7,
+            is_game_over = False
+        )
+
+        guess = 'D'
+        game.handleGuess(guess)
+        self.assertEquals(expectedResult, game.is_game_over)
+
 
     def test_is_game_over_is_false_if_guesses_left( self ):
         pass
